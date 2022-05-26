@@ -5,6 +5,7 @@ import 'package:medapp/screens/auth/onboarding.dart';
 import 'package:medapp/screens/auth/sign_in.dart';
 import 'package:medapp/screens/auth/sign_up.dart';
 import 'package:medapp/screens/auth/splash.dart';
+import 'package:medapp/screens/home/view/bottom_page.dart';
 
 class MyRoutes {
   static final MyRoutes _instance = MyRoutes._init();
@@ -25,6 +26,8 @@ class MyRoutes {
         return MaterialPageRoute(builder: (context) => const IDPage());
       case "sign_in":
         return MaterialPageRoute(builder: (context) => const SignInPage());
+        case "bottomnav":
+        return MaterialPageRoute(builder: (context) => const BottomNavPage());
     }
     return null;
   }

@@ -91,11 +91,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
           keyboardType: TextInputType.number,
           maxLength: 1,
           onChanged: (v) {
-            if (v.length == 1 && last == false) {
               FocusScope.of(context).nextFocus();
-            } else if (v.length == 1 && first == false) {
-              FocusScope.of(context).previousFocus();
-            }
           },
           decoration: InputDecoration(
             counter: const Offstage(),
