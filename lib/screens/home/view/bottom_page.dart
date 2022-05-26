@@ -23,7 +23,19 @@ class _BottomNavPageState extends State<BottomNavPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: _pages,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.5,
+        title: SvgPicture.asset("assets/icons/main_med.svg"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SvgPicture.asset("assets/icons/notification.svg"),
+          ),
+      
+        ],
+      ),
+      body: _pages[_selected],
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: 12,
         items: [
@@ -39,16 +51,17 @@ class _BottomNavPageState extends State<BottomNavPage> {
           ),
           BottomNavigationBarItem(
             label: "Treatments",
-            icon:  _selected == 1
+            icon: _selected == 1
                 ? SvgPicture.asset(
                     "assets/icons/select_fill.svg",
                   )
                 : SvgPicture.asset(
                     "assets/icons/fill.svg",
-                  ), ),
+                  ),
+          ),
           BottomNavigationBarItem(
             label: "Doctors",
-            icon:  _selected == 2
+            icon: _selected == 2
                 ? SvgPicture.asset(
                     "assets/icons/select_doctors.svg",
                   )
@@ -58,7 +71,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
           ),
           BottomNavigationBarItem(
             label: "Hospitals",
-            icon:  _selected == 3
+            icon: _selected == 3
                 ? SvgPicture.asset(
                     "assets/icons/select_hospitals.svg",
                   )
