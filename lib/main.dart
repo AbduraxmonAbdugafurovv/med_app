@@ -16,10 +16,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: TitleApp.title,
       theme: ThemeData(
+        iconTheme: IconThemeData(color: ColorConst.black),
         primarySwatch: Colors.blue,
       ),
       navigatorKey: NavigationService.instance.navigatorKey,
-      initialRoute: "sign_up",
+      initialRoute: "id",
       onGenerateRoute: MyRoutes.instance.onGenerateRoute,
     );
   }
