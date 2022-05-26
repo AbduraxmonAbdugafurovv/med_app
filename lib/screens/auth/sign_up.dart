@@ -62,17 +62,13 @@ class _SignUpPageState extends State<SignUpPage> {
                           height: context.height * 0.01,
                         ),
                         inputfield("Enter your full name..."),
-                        SizedBox(
-                          height: context.height * 0.04,
-                        ),
+
                         textBeforeInput("Phone number"),
                         SizedBox(
                           height: context.height * 0.01,
                         ),
                         inputfield("Enter your phone number..."),
-                        SizedBox(
-                          height: context.height * 0.04,
-                        ),
+
                         textBeforeInput("Create password"),
                         SizedBox(
                           height: context.height * 0.01,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:medapp/screens/home/bloc/cubit/home_cubit.dart';
+import 'package:medapp/screens/home/bloc/state/home_state.dart';
 import 'package:medapp/screens/home/calendar/calendar_page.dart';
 import 'package:medapp/screens/home/doctors/doctors_page.dart';
 import 'package:medapp/screens/home/hospitals/hospitals.dart';
@@ -13,80 +16,90 @@ class BottomNavPage extends StatefulWidget {
 }
 
 class _BottomNavPageState extends State<BottomNavPage> {
-  int _selected = 0;
   final List _pages = const [
     CalendarPage(),
     TreatmentPage(),
     DoctorsPage(),
     HospitalsPage(),
   ];
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-        title: SvgPicture.asset("assets/icons/main_med.svg"),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SvgPicture.asset("assets/icons/notification.svg"),
-          ),
-      
-        ],
-      ),
-      body: _pages[_selected],
-      bottomNavigationBar: BottomNavigationBar(
-        selectedFontSize: 12,
-        items: [
-          BottomNavigationBarItem(
-            label: "home",
-            icon: _selected == 0
-                ? SvgPicture.asset(
-                    "assets/icons/select_home.svg",
-                  )
-                : SvgPicture.asset(
-                    "assets/icons/home.svg",
-                  ),
-          ),
-          BottomNavigationBarItem(
-            label: "Treatments",
-            icon: _selected == 1
-                ? SvgPicture.asset(
-                    "assets/icons/select_fill.svg",
-                  )
-                : SvgPicture.asset(
-                    "assets/icons/fill.svg",
-                  ),
-          ),
-          BottomNavigationBarItem(
-            label: "Doctors",
-            icon: _selected == 2
-                ? SvgPicture.asset(
-                    "assets/icons/select_doctors.svg",
-                  )
-                : SvgPicture.asset(
-                    "assets/icons/doctors.svg",
-                  ),
-          ),
-          BottomNavigationBarItem(
-            label: "Hospitals",
-            icon: _selected == 3
-                ? SvgPicture.asset(
-                    "assets/icons/select_hospitals.svg",
-                  )
-                : SvgPicture.asset(
-                    "assets/icons/hospital.svg",
-                  ),
-          ),
-        ],
-        currentIndex: _selected,
-        onTap: (index) {
-          setState(() {
-            _selected = index;
-          });
+    return BlocBuilder<HomeCubit,HomeState>(
+        builder: (context, state) {
+          int selectedIndex = context.watch<HomeCubit>().selected;
+          if (state is LoadingHome) {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          }else if(state is InitialHome){
+            return  Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0.5,
+              title: SvgPicture.asset("assets/icons/main_med.svg"),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SvgPicture.asset("assets/icons/notification.svg"),
+                ),
+              ],
+            ),
+            body: _pages[selectedIndex],
+            bottomNavigationBar: BottomNavigationBar(
+              selectedFontSize: 12,
+              items: [
+                BottomNavigationBarItem(
+                  label: "home",
+                  icon: selectedIndex == 0
+                      ? SvgPicture.asset(
+                          "assets/icons/select_home.svg",
+                        )
+                      : SvgPicture.asset(
+                          "assets/icons/home.svg",
+                        ),
+                ),
+                BottomNavigationBarItem(
+                  label: "Treatments",
+                  icon: selectedIndex == 1
+                      ? SvgPicture.asset(
+                          "assets/icons/select_fill.svg",
+                        )
+                      : SvgPicture.asset(
+                          "assets/icons/fill.svg",
+                        ),
+                ),
+                BottomNavigationBarItem(
+                  label: "Doctors",
+                  icon: selectedIndex == 2
+                      ? SvgPicture.asset(
+                          "assets/icons/select_doctors.svg",
+                        )
+                      : SvgPicture.asset(
+                          "assets/icons/doctors.svg",
+                        ),
+                ),
+                BottomNavigationBarItem(
+                  label: "Hospitals",
+                  icon: selectedIndex == 3
+                      ? SvgPicture.asset(
+                          "assets/icons/select_hospitals.svg",
+                        )
+                      : SvgPicture.asset(
+                          "assets/icons/hospital.svg",
+                        ),
+                ),
+              ],
+              currentIndex: selectedIndex,
+              onTap: (index) {
+                context.read<HomeCubit>().change(index);
+              },
+            ),
+          );
+          }else{
+            return const Text("Hatoo");
+          }
         },
-      ),
-    );
+);
   }
 }

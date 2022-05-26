@@ -5,6 +5,7 @@ import 'package:medapp/screens/auth/onboarding.dart';
 import 'package:medapp/screens/auth/sign_in.dart';
 import 'package:medapp/screens/auth/sign_up.dart';
 import 'package:medapp/screens/auth/splash.dart';
+import 'package:medapp/screens/home/calendar/add_appointment.dart';
 import 'package:medapp/screens/home/view/bottom_page.dart';
 
 class MyRoutes {
@@ -15,20 +16,25 @@ class MyRoutes {
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case "splash":
-        return MaterialPageRoute(builder: (context) => const Splash());
+        return route(const Splash());
       case "onboarding":
-        return MaterialPageRoute(builder: (context) => const OnboardingPage());
+        return route(const OnboardingPage());
       case "sign_up":
-        return MaterialPageRoute(builder: (context) => const SignUpPage());
+        return route(const SignUpPage());
       case "confirm":
-        return MaterialPageRoute(builder: (context) => const ConfirmPage());
+        return route(const ConfirmPage());
       case "id":
-        return MaterialPageRoute(builder: (context) => const IDPage());
+        return route(const IDPage());
       case "sign_in":
-        return MaterialPageRoute(builder: (context) => const SignInPage());
-        case "bottomnav":
-        return MaterialPageRoute(builder: (context) => const BottomNavPage());
+        return route(const SignInPage());
+      case "bottomnav":
+        return route(const BottomNavPage());
+      case "add_apointment":
+        return route(const AddApointmentPage());
     }
     return null;
   }
+
+  MaterialPageRoute<dynamic> route(page) =>
+      MaterialPageRoute(builder: (context) => page);
 }
