@@ -15,6 +15,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final _key= GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   SizedBox(height: context.height * 0.1),
                   Form(
+                    key: _key,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -83,9 +85,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   InkWell(
                     child: mainButton(context, "Continue"),
                     onTap: () {
+                      if(_key.currentState!.validate()){
                       NavigationService.instance.pushNamed("confirm");
+                      }
                     },
-                  )
+                  ),
+                  SizedBox(height: context.height*0.05,)
                 ],
               ),
             )

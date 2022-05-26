@@ -12,25 +12,30 @@ Column signAppBar(BuildContext context, String text) {
       ),
       InkWell(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
-              Icons.arrow_back_ios_new,
-              color: ColorConst.kPimaryColor,
-            ),
-            Text(
-              "Back",
-              style: TextStyle(
-                  fontSize: FontConst.largeFont - 2,
-                  color: ColorConst.kPimaryColor),
-            ),
-            SizedBox(
-              width: context.width * 0.28,
+            Row(
+              children: [
+                Icon(
+                  Icons.arrow_back_ios_new,
+                  color: ColorConst.kPimaryColor,
+                ),
+                Text(
+                  "Back",
+                  style: TextStyle(
+                      fontSize: FontConst.largeFont - 2,
+                      color: ColorConst.kPimaryColor),
+                ),
+              ],
             ),
             Text(text,
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: FontConst.largeFont - 2,
                 )),
+            const SizedBox(
+              width: 40,
+            )
           ],
         ),
         onTap: () {
