@@ -12,6 +12,11 @@ class AddApointmentPage extends StatefulWidget {
 }
 
 class _AddApointmentPageState extends State<AddApointmentPage> {
+  GlobalKey _key = GlobalKey<FormState>();
+  List<String> region = [
+    "Male",
+    "Female",
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,41 +24,59 @@ class _AddApointmentPageState extends State<AddApointmentPage> {
         children: [
           Column(
             children: [
-              SizedBox(height: context.height*0.06,),
+              SizedBox(
+                height: context.height * 0.06,
+              ),
               Row(
                 children: [
                   InkWell(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text("Cancel",style: TextStyle(fontSize: FontConst.mediumFont,color: ColorConst.blue),),
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                            fontSize: FontConst.mediumFont,
+                            color: ColorConst.blue),
+                      ),
                     ),
-                    onTap: (){
+                    onTap: () {
                       NavigationService.instance.pop();
                     },
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 50),
-                    child: Text("Book an appointment",style: TextStyle(fontSize: FontConst.mediumFont+2,fontWeight: FontWeight.w600),),
+                    child: Text(
+                      "Book an appointment",
+                      style: TextStyle(
+                          fontSize: FontConst.mediumFont + 2,
+                          fontWeight: FontWeight.w600),
+                    ),
                   )
                 ],
               ),
-              SizedBox(height: context.height*0.01,),
-              Divider(color: ColorConst.black.withOpacity(0.5),)
+              SizedBox(
+                height: context.height * 0.01,
+              ),
+              Divider(
+                color: ColorConst.black.withOpacity(0.5),
+              )
             ],
           ),
           SingleChildScrollView(
-            child: Column(
-              children: [
-                textBeforeInput("Region"),
-                SizedBox(
-                  
-                ),
-                Form(child: Column(
-                  children: [
-
-                  ],
-                ))
-              ],
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  textBeforeInput("Region"),
+                  Form(
+                    key: _key,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         ],

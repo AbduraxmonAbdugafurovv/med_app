@@ -34,17 +34,6 @@ class _BottomNavPageState extends State<BottomNavPage> {
             );
           }else if(state is InitialHome){
             return  Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              elevation: 0.5,
-              title: SvgPicture.asset("assets/icons/main_med.svg"),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset("assets/icons/notification.svg"),
-                ),
-              ],
-            ),
             body: _pages[selectedIndex],
             bottomNavigationBar: BottomNavigationBar(
               selectedFontSize: 12,
@@ -92,7 +81,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
               ],
               currentIndex: selectedIndex,
               onTap: (index) {
-                context.read<HomeCubit>().change(index);
+                context.read<HomeCubit>().changePage(index);
               },
             ),
           );
