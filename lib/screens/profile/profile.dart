@@ -16,8 +16,16 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
   @override
   Widget build(BuildContext context) {
+    int gender = context.watch<HomeCubit>().gender;
+    final nameConroller = context.watch<HomeCubit>().nameController;
+    final addressConroller = context.watch<HomeCubit>().addressController;
+    final addressController = context.watch<HomeCubit>().dataBirhtController;
+    final emailController = context.watch<HomeCubit>().emailController;
+    final phoneNumberController = context.watch<HomeCubit>().phonenumberController;
+    bool profileVisibl = context.watch<HomeCubit>().profileVisibility;
     return Scaffold(
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
@@ -25,145 +33,140 @@ class _ProfilePageState extends State<ProfilePage> {
             return Column(
               children: [
                 signAppBar(context, "My Profile"),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: context.height * 0.01,
-                      ),
-                      const CircleAvatar(
-                        radius: 60,
-                        // backgroundImage: AssetImage("assets/images/i.webp"),
-                      ),
-                      SizedBox(
-                        height: context.height * 0.03,
-                      ),
-                      InkWell(
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: context.width * 0.5,
-                          height: context.height * 0.06,
-                          decoration: BoxDecoration(
-                              color: ColorConst.kPimaryColor,
-                              borderRadius: BorderRadius.circular(7)),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: context.height * 0.01,
+                        ),
+                        const CircleAvatar(
+                          radius: 60,
+                          // backgroundImage: AssetImage("assets/images/i.webp"),
+                        ),
+                        SizedBox(
+                          height: context.height * 0.03,
+                        ),
+                        InkWell(
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: context.width * 0.5,
+                            height: context.height * 0.06,
+                            decoration: BoxDecoration(
+                                color: ColorConst.kPimaryColor,
+                                borderRadius: BorderRadius.circular(7)),
+                            child: Text(
+                              "Upload new picture",
+                              style: TextStyle(
+                                  fontSize: FontConst.mediumFont,
+                                  color: ColorConst.white,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          onTap: () {},
+                        ),
+                        SizedBox(
+                          height: context.height * 0.02,
+                        ),
+                        InkWell(
                           child: Text(
-                            "Upload new picture",
+                            "Delete photo",
                             style: TextStyle(
+                                fontWeight: FontWeight.w500,
                                 fontSize: FontConst.mediumFont,
-                                color: ColorConst.white,
-                                fontWeight: FontWeight.w600),
+                                color: ColorConst.red),
+                          ),
+                          onTap: () {},
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              textBeforeInput("ID"),
+                              Container(
+                                width: double.infinity,
+                                height: context.height * 0.06,
+                                decoration: BoxDecoration(
+                                    color: ColorConst.black.withOpacity(0.1),
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 20),
+                                  child: Row(
+                                    children: [
+                                      const Expanded(child: Text("2343534534")),
+                                      InkWell(
+                                        child: SvgPicture.asset(
+                                            "assets/icons/copy.svg"),
+                                        onTap: () {},
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              textBeforeInput("Full name"),
+                              profileInput(nameConroller),
+                              textBeforeInput("Date of birth"),
+                              TextFormField(
+                                // initialValue: "24.11.2000",
+                                // controller: cont,
+                                decoration: InputDecoration(
+                                  prefix: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: SvgPicture.asset(
+                                        "assets/icons/calendar-event.svg"),
+                                  ),
+                                  border: inputBorder(),
+                                ),
+                                validator: (value) {
+                                  if (value!.length < 4) {
+                                    return "4 tadan kam bo'lmasligi lozim";
+                                  }
+                                },
+                              ),
+                              SizedBox(
+                                height: context.height * 0.03,
+                              ),
+                              textBeforeInput("Gender"),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  genderMethods(context, gender, 0, "Male"),
+                                  genderMethods(context, gender, 1, "Female"),
+                                ],
+                              ),
+                              SizedBox(
+                                height: context.height * 0.02,
+                              ),
+                              oneGender(context, gender),
+                              SizedBox(
+                                height: context.height*0.03
+                              ),
+                              textBeforeInput("Address"),
+                              profileInput(addressController),
+                              SizedBox(
+                                height: context.height*0.03
+                              ),
+                              textBeforeInput("Phone number"),
+                              profileInput(phoneNumberController),
+                              SizedBox(
+                                height: context.height*0.03
+                              ),
+                              textBeforeInput("Email"),
+                              profileInput(emailController),
+                              SwitchListTile.adaptive(
+                                title: Text("Profile visibilty"),
+                                value: profileVisibl, onChanged:(v){
+                                  context.read<HomeCubit>().changeProfileVis();
+                                } )
+                            ],
                           ),
                         ),
-                        onTap: () {},
-                      ),
-                      SizedBox(
-                        height: context.height * 0.02,
-                      ),
-                      InkWell(
-                        child: Text(
-                          "Delete photo",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: FontConst.mediumFont,
-                              color: ColorConst.red),
-                        ),
-                        onTap: () {},
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            textBeforeInput("ID"),
-                            Container(
-                              width: double.infinity,
-                              height: context.height * 0.06,
-                              decoration: BoxDecoration(
-                                  color: ColorConst.black.withOpacity(0.1),
-                                  border: Border.all(),
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: Row(
-                                  children: [
-                                    const Expanded(child: Text("2343534534")),
-                                    InkWell(
-                                      child: SvgPicture.asset(
-                                          "assets/icons/copy.svg"),
-                                      onTap: () {},
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            textBeforeInput("Full name"),
-                            TextFormField(
-                              initialValue: "Mavlon",
-                              decoration: InputDecoration(
-                                border: inputBorder(),
-                              ),
-                            ),
-                            textBeforeInput("Date of birth"),
-                            TextFormField(
-                              initialValue: "24.11.2000",
-                              decoration: InputDecoration(
-                                prefix: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: SvgPicture.asset(
-                                      "assets/icons/calendar-event.svg"),
-                                ),
-                                border: inputBorder(),
-                              ),
-                            ),
-                            SizedBox(
-                              height: context.height * 0.03,
-                            ),
-                            textBeforeInput("Gender"),
-                            InkWell(
-                              child: Container(
-                                height: context.height * 0.06,
-                                width: context.width * 0.4,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: ColorConst.black.withOpacity(0.4)),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      height: 20,
-                                      width: 20,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: ColorConst.black
-                                                  .withOpacity(0.6)),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: Text(
-                                        "Male",
-                                        style: TextStyle(
-                                            fontSize: FontConst.mediumFont + 2),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              onTap: () {
-                                context.watch<HomeCubit>().selectGender(0);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -172,11 +175,102 @@ class _ProfilePageState extends State<ProfilePage> {
             return const Center(
               child: CircularProgressIndicator.adaptive(),
             );
+          } else if (state is ErrorHome) {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
           } else {
             return const Text("State da Erorr");
           }
         },
       ),
+    );
+  }
+
+  TextFormField profileInput(controller) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        border: inputBorder(),
+      ),
+      validator: (value) {
+        if (value!.length < 4) {
+          return "4 tadan kam bo'lmasligi lozim";
+        }
+      },
+    );
+  }
+
+  InkWell oneGender(BuildContext context, int gender) {
+    return InkWell(
+      child: Container(
+        width: context.width,
+        height: context.height * 0.06,
+        decoration: BoxDecoration(
+          color: gender == 2
+              ? ColorConst.blue.withOpacity(0.2)
+              : Colors.transparent,
+          border: Border.all(
+            color: gender == 2
+                ? ColorConst.blue
+                : ColorConst.black.withOpacity(0.4),
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: genderType(gender, 2, "Prefer not to say "),
+      ),
+      onTap: () {
+        context.read<HomeCubit>().selectGender(2);
+      },
+    );
+  }
+
+  InkWell genderMethods(BuildContext context, int gender, int index, text) {
+    return InkWell(
+      child: Container(
+        height: context.height * 0.06,
+        width: context.width * 0.4,
+        decoration: BoxDecoration(
+          color: gender == index
+              ? ColorConst.blue.withOpacity(0.1)
+              : Colors.transparent,
+          border: Border.all(
+              color: gender == index
+                  ? ColorConst.blue
+                  : ColorConst.black.withOpacity(0.4)),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: genderType(gender, index, text),
+      ),
+      onTap: () {
+        context.read<HomeCubit>().selectGender(index);
+      },
+    );
+  }
+
+  Row genderType(int gender, int index, text) {
+    return Row(
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10),
+          height: 20,
+          width: 20,
+          decoration: BoxDecoration(
+              border: Border.all(
+                  width: gender == index ? 5 : 1,
+                  color: gender == index
+                      ? ColorConst.blue
+                      : ColorConst.black.withOpacity(0.6)),
+              borderRadius: BorderRadius.circular(10)),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Text(
+            text,
+            style: TextStyle(fontSize: FontConst.mediumFont + 2),
+          ),
+        )
+      ],
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:medapp/screens/home/bloc/state/home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -7,7 +8,17 @@ class HomeCubit extends Cubit<HomeState> {
   int selected = 0;
   bool checkTable = false;
   int gender = 0;
+  bool profileVisibility = false;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController dataBirhtController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController phonenumberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
+  changeProfileVis(){
+    profileVisibility=!profileVisibility;
+    emit(InitialHome());
+  }
   selectGender(index) {
     gender = index;
     emit(InitialHome());
