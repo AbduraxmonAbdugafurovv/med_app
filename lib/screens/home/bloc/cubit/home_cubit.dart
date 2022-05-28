@@ -9,16 +9,17 @@ class HomeCubit extends Cubit<HomeState> {
   bool checkTable = false;
   int gender = 0;
   bool profileVisibility = false;
-  TextEditingController nameController = TextEditingController();
-  TextEditingController dataBirhtController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
-  TextEditingController phonenumberController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController(text: "Bobur Mavlonov");
+  TextEditingController dataBirhtController = TextEditingController(text: "24.11.2000");
+  TextEditingController addressController = TextEditingController(text: "TAshkent city Shayhontohur district");
+  TextEditingController phonenumberController = TextEditingController(text: "+998");
+  TextEditingController emailController = TextEditingController(text: "bobur@gmail.com");
 
-  changeProfileVis(){
-    profileVisibility=!profileVisibility;
+  changeProfileVis() {
+    profileVisibility = !profileVisibility;
     emit(InitialHome());
   }
+
   selectGender(index) {
     gender = index;
     emit(InitialHome());

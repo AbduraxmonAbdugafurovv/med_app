@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       navigatorKey: NavigationService.instance.navigatorKey,
-      initialRoute: "bottomnav",
+      initialRoute: "profile",
       onGenerateRoute: MyRoutes.instance.onGenerateRoute,
     );
   }

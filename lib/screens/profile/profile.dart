@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:medapp/core/components/home/gender_types.dart';
+import 'package:medapp/core/components/inputfield.dart';
 import 'package:medapp/core/components/text_before_input.dart';
 import 'package:medapp/core/constant/constant.dart';
 import 'package:medapp/core/extension/context_ex.dart';
 import 'package:medapp/core/widget/sign_appbar.dart';
 import 'package:medapp/screens/home/bloc/cubit/home_cubit.dart';
 import 'package:medapp/screens/home/bloc/state/home_state.dart';
+import '../../core/components/home/add_acc_button.dart';
+import '../../core/components/home/cancel_button.dart';
+import '../../core/components/home/delete_picture.dart';
+import '../../core/components/home/inputborder.dart';
+import '../../core/components/home/logout_button.dart';
+import '../../core/components/home/profile_id.dart';
+import '../../core/components/home/profile_input.dart';
+import '../../core/components/home/save_button.dart';
+import '../../core/components/home/swith.dart';
+import '../../core/components/home/text_visibily.dart';
+import '../../core/components/home/upload_new_picture.dart';
+import '../../core/widget/one_gender.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -16,15 +30,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   @override
   Widget build(BuildContext context) {
     int gender = context.watch<HomeCubit>().gender;
     final nameConroller = context.watch<HomeCubit>().nameController;
-    final addressConroller = context.watch<HomeCubit>().addressController;
-    final addressController = context.watch<HomeCubit>().dataBirhtController;
+    final dataController = context.watch<HomeCubit>().dataBirhtController;
     final emailController = context.watch<HomeCubit>().emailController;
-    final phoneNumberController = context.watch<HomeCubit>().phonenumberController;
+    final phoneNumberController =
+        context.watch<HomeCubit>().phonenumberController;
     bool profileVisibl = context.watch<HomeCubit>().profileVisibility;
     return Scaffold(
       body: BlocBuilder<HomeCubit, HomeState>(
@@ -42,40 +55,19 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         const CircleAvatar(
                           radius: 60,
-                          // backgroundImage: AssetImage("assets/images/i.webp"),
                         ),
                         SizedBox(
                           height: context.height * 0.03,
                         ),
                         InkWell(
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: context.width * 0.5,
-                            height: context.height * 0.06,
-                            decoration: BoxDecoration(
-                                color: ColorConst.kPimaryColor,
-                                borderRadius: BorderRadius.circular(7)),
-                            child: Text(
-                              "Upload new picture",
-                              style: TextStyle(
-                                  fontSize: FontConst.mediumFont,
-                                  color: ColorConst.white,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
+                          child: uploadPicture(context),
                           onTap: () {},
                         ),
                         SizedBox(
                           height: context.height * 0.02,
                         ),
                         InkWell(
-                          child: Text(
-                            "Delete photo",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: FontConst.mediumFont,
-                                color: ColorConst.red),
-                          ),
+                          child: deletePicture(),
                           onTap: () {},
                         ),
                         Padding(
@@ -84,34 +76,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               textBeforeInput("ID"),
-                              Container(
-                                width: double.infinity,
-                                height: context.height * 0.06,
-                                decoration: BoxDecoration(
-                                    color: ColorConst.black.withOpacity(0.1),
-                                    border: Border.all(),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
-                                  child: Row(
-                                    children: [
-                                      const Expanded(child: Text("2343534534")),
-                                      InkWell(
-                                        child: SvgPicture.asset(
-                                            "assets/icons/copy.svg"),
-                                        onTap: () {},
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              profileID(context),
                               textBeforeInput("Full name"),
                               profileInput(nameConroller),
                               textBeforeInput("Date of birth"),
                               TextFormField(
-                                // initialValue: "24.11.2000",
-                                // controller: cont,
+                                controller: dataController,
                                 decoration: InputDecoration(
                                   prefix: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -132,36 +102,157 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               textBeforeInput("Gender"),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  genderMethods(context, gender, 0, "Male"),
-                                  genderMethods(context, gender, 1, "Female"),
+                                  genderTypesContaianer(
+                                      context, gender, 0, "Male"),
+                                  genderTypesContaianer(
+                                      context, gender, 1, "Female"),
                                 ],
                               ),
                               SizedBox(
                                 height: context.height * 0.02,
                               ),
                               oneGender(context, gender),
-                              SizedBox(
-                                height: context.height*0.03
-                              ),
+                              SizedBox(height: context.height * 0.03),
                               textBeforeInput("Address"),
-                              profileInput(addressController),
-                              SizedBox(
-                                height: context.height*0.03
-                              ),
+                              // profileInput(),
+                              SizedBox(height: context.height * 0.03),
                               textBeforeInput("Phone number"),
                               profileInput(phoneNumberController),
-                              SizedBox(
-                                height: context.height*0.03
-                              ),
+                              SizedBox(height: context.height * 0.03),
                               textBeforeInput("Email"),
                               profileInput(emailController),
-                              SwitchListTile.adaptive(
-                                title: Text("Profile visibilty"),
-                                value: profileVisibl, onChanged:(v){
-                                  context.read<HomeCubit>().changeProfileVis();
-                                } )
+                              SizedBox(height: context.height * 0.03),
+                              sWitch(profileVisibl, context),
+                              Divider(color: ColorConst.black.withOpacity(0.4)),
+                              textProfileVisibilty(),
+                              SizedBox(height: context.height * 0.05),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: context.width * 0.2,
+                                  ),
+                                  cencelButton(context),
+                                  SizedBox(
+                                    width: context.width * 0.12,
+                                  ),
+                                  saveButton(context),
+                                ],
+                              ),
+                              SizedBox(
+                                height: context.height * 0.06,
+                              ),
+                              InkWell(
+                                child: addAccountButton(context),
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(13)),
+                                    context: context,
+                                    builder: (context) => Container(
+                                      width: context.width,
+                                      height: context.height * 0.3,
+                                      decoration: BoxDecoration(
+                                        color: ColorConst.white,
+                                        borderRadius: BorderRadius.circular(13),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              top: 18,
+                                              bottom: 13,
+                                              left: context.width * 0.18,
+                                            ),
+                                            child: Text(
+                                              "What type of account do you want to add",
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      FontConst.mediumFont - 2,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: ColorConst.black
+                                                      .withOpacity(0.5)),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          Divider(
+                                            color: ColorConst.black
+                                                .withOpacity(0.4),
+                                          ),
+                                          textModal(
+                                              context, "Add axisting account"),
+                                          Divider(
+                                            color: ColorConst.black
+                                                .withOpacity(0.4),
+                                          ),
+                                          InkWell(
+                                            child: textModal(
+                                                context, "Create new account"),
+                                            onTap: () {
+                                              showModalBottomSheet(
+                                                isScrollControlled: true,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(13)
+                                                ),
+                                                context: context,
+                                                builder: (context) {
+                                                  return SizedBox(
+                                                    height:
+                                                        context.height*0.8,
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding: const  EdgeInsets.symmetric(horizontal: 16,vertical: 18),
+                                                              child: Text("Cancel",style: TextStyle(fontSize: FontConst.mediumFont+2,fontWeight: FontWeight.w600,color: ColorConst.blue),),
+                                                            ),
+                                                            SizedBox(
+                                                              width: context.width*0.1,
+                                                            ),
+                                                            Text("Create new",style: TextStyle(fontSize: FontConst.mediumFont+2,fontWeight: FontWeight.w700),),
+                                                            Divider(color: ColorConst.black.withOpacity(0.3),),
+                                                            SizedBox(
+                                                              height: context.height*0.04
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        textBeforeInput("Ful name"),
+                                                        inputfield("Enter your full name... ",)
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              SizedBox(
+                                height: context.height * 0.01,
+                              ),
+                              Text(
+                                "You can another accounts for example for your children or disabled relatives",
+                                style: TextStyle(
+                                    fontSize: FontConst.mediumFont - 2,
+                                    color: ColorConst.black.withOpacity(0.6)),
+                              ),
+                              SizedBox(
+                                height: context.height * 0.05,
+                              ),
+                              logoutButton(context),
+                              SizedBox(
+                                height: context.height * 0.05,
+                              )
                             ],
                           ),
                         ),
@@ -187,96 +278,17 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  TextFormField profileInput(controller) {
-    return TextFormField(
-      controller: controller,
-      decoration: InputDecoration(
-        border: inputBorder(),
+  Padding textModal(BuildContext context, text) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: context.width * 0.25, vertical: context.height * 0.02),
+      child: Text(
+        text,
+        style: TextStyle(
+            fontSize: FontConst.largeFont,
+            fontWeight: FontWeight.w600,
+            color: ColorConst.blue),
       ),
-      validator: (value) {
-        if (value!.length < 4) {
-          return "4 tadan kam bo'lmasligi lozim";
-        }
-      },
-    );
-  }
-
-  InkWell oneGender(BuildContext context, int gender) {
-    return InkWell(
-      child: Container(
-        width: context.width,
-        height: context.height * 0.06,
-        decoration: BoxDecoration(
-          color: gender == 2
-              ? ColorConst.blue.withOpacity(0.2)
-              : Colors.transparent,
-          border: Border.all(
-            color: gender == 2
-                ? ColorConst.blue
-                : ColorConst.black.withOpacity(0.4),
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: genderType(gender, 2, "Prefer not to say "),
-      ),
-      onTap: () {
-        context.read<HomeCubit>().selectGender(2);
-      },
-    );
-  }
-
-  InkWell genderMethods(BuildContext context, int gender, int index, text) {
-    return InkWell(
-      child: Container(
-        height: context.height * 0.06,
-        width: context.width * 0.4,
-        decoration: BoxDecoration(
-          color: gender == index
-              ? ColorConst.blue.withOpacity(0.1)
-              : Colors.transparent,
-          border: Border.all(
-              color: gender == index
-                  ? ColorConst.blue
-                  : ColorConst.black.withOpacity(0.4)),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: genderType(gender, index, text),
-      ),
-      onTap: () {
-        context.read<HomeCubit>().selectGender(index);
-      },
-    );
-  }
-
-  Row genderType(int gender, int index, text) {
-    return Row(
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10),
-          height: 20,
-          width: 20,
-          decoration: BoxDecoration(
-              border: Border.all(
-                  width: gender == index ? 5 : 1,
-                  color: gender == index
-                      ? ColorConst.blue
-                      : ColorConst.black.withOpacity(0.6)),
-              borderRadius: BorderRadius.circular(10)),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            text,
-            style: TextStyle(fontSize: FontConst.mediumFont + 2),
-          ),
-        )
-      ],
-    );
-  }
-
-  OutlineInputBorder inputBorder() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(6),
     );
   }
 }
