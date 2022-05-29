@@ -22,6 +22,7 @@ import '../../core/components/home/swith.dart';
 import '../../core/components/home/text_visibily.dart';
 import '../../core/components/home/upload_new_picture.dart';
 import '../../core/components/inputfield.dart';
+import '../../core/components/profile/text_modla.dart';
 import '../../core/widget/one_gender.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -32,7 +33,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   GlobalKey _globalKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -290,14 +290,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                 inputfield(
                                                                     "Create your new password",
                                                                     passwordController),
-                                                                    SizedBox(height: context.height*0.24,),
+                                                                SizedBox(
+                                                                  height: context
+                                                                          .height *
+                                                                      0.24,
+                                                                ),
                                                                 InkWell(
                                                                   child: mainButton(
                                                                       context,
                                                                       "Continue"),
-                                                                  onTap: () {
-
-                                                                  },
+                                                                  onTap: () {},
                                                                 )
                                                               ],
                                                             ),
@@ -310,7 +312,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                               );
                                             },
                                           ),
-                                          Center(child: textModal(context, "Cancel"))
+                                          Center(
+                                              child:
+                                                  textModal(context, "Cancel"))
                                         ],
                                       ),
                                     ),
@@ -354,20 +358,6 @@ class _ProfilePageState extends State<ProfilePage> {
             return const Text("State da Erorr");
           }
         },
-      ),
-    );
-  }
-
-  Padding textModal(BuildContext context, text) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: context.width * 0.25, vertical: context.height * 0.02),
-      child: Text(
-        text,
-        style: TextStyle(
-            fontSize: FontConst.largeFont,
-            fontWeight: FontWeight.w600,
-            color: ColorConst.blue),
       ),
     );
   }

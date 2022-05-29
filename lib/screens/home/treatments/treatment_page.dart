@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medapp/core/constant/constant.dart';
 import 'package:medapp/core/extension/context_ex.dart';
+import 'package:medapp/core/init/navigation_service.dart';
 import 'package:medapp/screens/home/bloc/cubit/home_cubit.dart';
 import 'package:medapp/screens/home/bloc/state/home_state.dart';
 
@@ -82,68 +83,25 @@ class _TreatmentPageState extends State<TreatmentPage>
                         itemCount: 3,
                         itemBuilder: (context, index) {
                           return InkWell(
-                            child: SizedBox(
-                              height: context.height * 0.13,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Aortic ",
-                                          style: TextStyle(
-                                              fontSize: FontConst.mediumFont + 2,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {},
-                                            icon: Icon(
-                                              Icons.chevron_right,
-                                              size: 33,
-                                              color: ColorConst.black
-                                                  .withOpacity(0.4),
-                                            ))
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 6),
-                                      child: Text(
-                                        'Mamurov abbos',
-                                        style: TextStyle(
-                                            fontSize: FontConst.mediumFont,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(bottom: 7),
-                                      child: Text(
-                                        "Familiy clinic",
-                                        style: TextStyle(
-                                            fontSize: FontConst.mediumFont - 2,
-                                            fontWeight: FontWeight.w500,
-                                            color: ColorConst.black
-                                                .withOpacity(0.5)),
-                                      ),
-                                    ),
-                                    Divider(
-                                      color: ColorConst.black.withOpacity(0.5),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                            child: treatmentList(context),
+                            onTap: () {
+                              NavigationService.instance
+                                  .pushNamed("treatment_details");
+                            },
                           );
                         }),
                   ),
-                  const Center(
-                    child: Text("It's rainy here"),
-                  ),
-                  const  Center(
-                    child: Text("It's sunny here"),
+                  ListView.builder(
+                    itemCount: 3,
+                    itemBuilder: (context, index) {
+                    return InkWell(child: treatmentList(context),onTap: (){
+                      NavigationService.instance.pushNamed("treatment_details");
+                    },);
+                  }),
+                   Center(
+                    child: ListView.builder(itemBuilder: (context,index){
+                      return SizedBox();
+                    }),
                   ),
                 ],
               ),
@@ -153,5 +111,64 @@ class _TreatmentPageState extends State<TreatmentPage>
           }
         },
         listener: (context, state) {});
+  }
+
+  SizedBox treatmentList(BuildContext context) {
+    return SizedBox(
+                            height: context.height * 0.13,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Aortic ",
+                                        style: TextStyle(
+                                            fontSize:
+                                                FontConst.mediumFont + 2,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.chevron_right,
+                                          size: 33,
+                                          color: ColorConst.black
+                                              .withOpacity(0.4),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 6),
+                                    child: Text(
+                                      'Mamurov abbos',
+                                      style: TextStyle(
+                                          fontSize: FontConst.mediumFont,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 7),
+                                    child: Text(
+                                      "Familiy clinic",
+                                      style: TextStyle(
+                                          fontSize: FontConst.mediumFont - 2,
+                                          fontWeight: FontWeight.w500,
+                                          color: ColorConst.black
+                                              .withOpacity(0.5)),
+                                    ),
+                                  ),
+                                  Divider(
+                                    color: ColorConst.black.withOpacity(0.5),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
   }
 }
