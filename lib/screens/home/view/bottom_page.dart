@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:medapp/core/constant/constant.dart';
 import 'package:medapp/screens/home/bloc/cubit/home_cubit.dart';
 import 'package:medapp/screens/home/bloc/state/home_state.dart';
 import 'package:medapp/screens/home/calendar/calendar_page.dart';
@@ -25,17 +26,19 @@ class _BottomNavPageState extends State<BottomNavPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit,HomeState>(
-        builder: (context, state) {
-          int selectedIndex = context.watch<HomeCubit>().selected;
-          if (state is LoadingHome) {
-            return const Center(
-              child: CircularProgressIndicator.adaptive(),
-            );
-          }else if(state is InitialHome){
-            return  Scaffold(
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        int selectedIndex = context.watch<HomeCubit>().selected;
+        if (state is LoadingHome) {
+          return const Center(
+            child: CircularProgressIndicator.adaptive(),
+          );
+        } else if (state is InitialHome) {
+          return Scaffold(
             body: _pages[selectedIndex],
             bottomNavigationBar: BottomNavigationBar(
+              unselectedLabelStyle:
+                  TextStyle(color: ColorConst.black.withOpacity(0.5)),
               selectedFontSize: 12,
               items: [
                 BottomNavigationBarItem(
@@ -85,10 +88,10 @@ class _BottomNavPageState extends State<BottomNavPage> {
               },
             ),
           );
-          }else{
-            return const Text("Hatoo");
-          }
-        },
-);
+        } else {
+          return const Text("Hatoo");
+        }
+      },
+    );
   }
 }
