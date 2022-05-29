@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:medapp/core/components/home/gender_types.dart';
-import 'package:medapp/core/components/inputfield.dart';
+import 'package:medapp/core/components/mainbutton.dart';
 import 'package:medapp/core/components/text_before_input.dart';
 import 'package:medapp/core/constant/constant.dart';
 import 'package:medapp/core/extension/context_ex.dart';
 import 'package:medapp/core/widget/sign_appbar.dart';
+import 'package:medapp/screens/auth/cubit/auth_cubit.dart';
 import 'package:medapp/screens/home/bloc/cubit/home_cubit.dart';
 import 'package:medapp/screens/home/bloc/state/home_state.dart';
 import '../../core/components/home/add_acc_button.dart';
@@ -20,6 +21,7 @@ import '../../core/components/home/save_button.dart';
 import '../../core/components/home/swith.dart';
 import '../../core/components/home/text_visibily.dart';
 import '../../core/components/home/upload_new_picture.dart';
+import '../../core/components/inputfield.dart';
 import '../../core/widget/one_gender.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -30,14 +32,19 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  GlobalKey _globalKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     int gender = context.watch<HomeCubit>().gender;
-    final nameConroller = context.watch<HomeCubit>().nameController;
+
+    final phoneNumberController =
+        context.watch<AuthCubit>().phoneNumberConroller;
+    final nameController = context.watch<AuthCubit>().nameConroller;
+    final passwordController = context.watch<AuthCubit>().passwordConroller;
     final dataController = context.watch<HomeCubit>().dataBirhtController;
     final emailController = context.watch<HomeCubit>().emailController;
-    final phoneNumberController =
-        context.watch<HomeCubit>().phonenumberController;
+    final addressController = context.watch<HomeCubit>().addressController;
     bool profileVisibl = context.watch<HomeCubit>().profileVisibility;
     return Scaffold(
       body: BlocBuilder<HomeCubit, HomeState>(
@@ -78,7 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               textBeforeInput("ID"),
                               profileID(context),
                               textBeforeInput("Full name"),
-                              profileInput(nameConroller),
+                              profileInput(nameController),
                               textBeforeInput("Date of birth"),
                               TextFormField(
                                 controller: dataController,
@@ -117,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               oneGender(context, gender),
                               SizedBox(height: context.height * 0.03),
                               textBeforeInput("Address"),
-                              // profileInput(),
+                              profileInput(addressController),
                               SizedBox(height: context.height * 0.03),
                               textBeforeInput("Phone number"),
                               profileInput(phoneNumberController),
@@ -197,33 +204,105 @@ class _ProfilePageState extends State<ProfilePage> {
                                               showModalBottomSheet(
                                                 isScrollControlled: true,
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(13)
-                                                ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            13)),
                                                 context: context,
                                                 builder: (context) {
                                                   return SizedBox(
                                                     height:
-                                                        context.height*0.8,
+                                                        context.height * 0.8,
                                                     child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Row(
                                                           children: [
                                                             Padding(
-                                                              padding: const  EdgeInsets.symmetric(horizontal: 16,vertical: 18),
-                                                              child: Text("Cancel",style: TextStyle(fontSize: FontConst.mediumFont+2,fontWeight: FontWeight.w600,color: ColorConst.blue),),
+                                                              padding: const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      16,
+                                                                  vertical: 18),
+                                                              child: Text(
+                                                                "Cancel",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        FontConst.mediumFont +
+                                                                            2,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    color: ColorConst
+                                                                        .blue),
+                                                              ),
                                                             ),
                                                             SizedBox(
-                                                              width: context.width*0.1,
+                                                              width: context
+                                                                      .width *
+                                                                  0.1,
                                                             ),
-                                                            Text("Create new",style: TextStyle(fontSize: FontConst.mediumFont+2,fontWeight: FontWeight.w700),),
-                                                            Divider(color: ColorConst.black.withOpacity(0.3),),
+                                                            Text("Create new",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        FontConst.mediumFont +
+                                                                            2,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700)),
                                                             SizedBox(
-                                                              height: context.height*0.04
-                                                            ),
+                                                                height: context
+                                                                        .height *
+                                                                    0.04),
                                                           ],
                                                         ),
-                                                        textBeforeInput("Ful name"),
-                                                        inputfield("Enter your full name... ",)
+                                                        Divider(
+                                                            color: ColorConst
+                                                                .black
+                                                                .withOpacity(
+                                                                    0.4)),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      20),
+                                                          child: Form(
+                                                            key: _globalKey,
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                textBeforeInput(
+                                                                    "Ful name"),
+                                                                inputfield(
+                                                                    "Enter your full name... ",
+                                                                    nameController),
+                                                                textBeforeInput(
+                                                                    "Phone number"),
+                                                                inputfield(
+                                                                    "Enter your phone number...",
+                                                                    phoneNumberController),
+                                                                textBeforeInput(
+                                                                    "Create pawword"),
+                                                                inputfield(
+                                                                    "Create your new password",
+                                                                    passwordController),
+                                                                    SizedBox(height: context.height*0.24,),
+                                                                InkWell(
+                                                                  child: mainButton(
+                                                                      context,
+                                                                      "Continue"),
+                                                                  onTap: () {
+
+                                                                  },
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
                                                       ],
                                                     ),
                                                   );
@@ -231,6 +310,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                               );
                                             },
                                           ),
+                                          Center(child: textModal(context, "Cancel"))
                                         ],
                                       ),
                                     ),

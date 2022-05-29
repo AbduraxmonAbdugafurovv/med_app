@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medapp/core/constant/constant.dart';
 import 'package:medapp/core/init/navigation_service.dart';
 import 'package:medapp/routes/routes.dart';
+import 'package:medapp/screens/auth/cubit/auth_cubit.dart';
 import 'package:medapp/screens/home/bloc/cubit/home_cubit.dart';
 
 void main() async {
@@ -10,6 +11,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeCubit()),
+        BlocProvider(create: (context) => AuthCubit()),
       ],
       child: const MyApp(),
     ),
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       navigatorKey: NavigationService.instance.navigatorKey,
-      initialRoute: "profile",
+      initialRoute: "bottomnav",
       onGenerateRoute: MyRoutes.instance.onGenerateRoute,
     );
   }

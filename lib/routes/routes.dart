@@ -6,6 +6,7 @@ import 'package:medapp/screens/auth/sign_in.dart';
 import 'package:medapp/screens/auth/sign_up.dart';
 import 'package:medapp/screens/auth/splash.dart';
 import 'package:medapp/screens/home/calendar/add_appointment.dart';
+import 'package:medapp/screens/home/treatments/treatments_details.dart';
 import 'package:medapp/screens/home/view/bottom_page.dart';
 import 'package:medapp/screens/profile/profile.dart';
 
@@ -32,8 +33,10 @@ class MyRoutes {
         return route(const BottomNavPage());
       case "add_apointment":
         return route(const AddApointmentPage());
-        case "profile":
+      case "profile":
         return route(const ProfilePage());
+      case "treatment_details":
+        return route(const TreatmentDetails());
     }
     return null;
   }
