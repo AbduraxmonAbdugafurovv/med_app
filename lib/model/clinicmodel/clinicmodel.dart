@@ -1,3 +1,5 @@
+import 'package:medapp/model/doctors/doctors_model.dart';
+
 class ClinicModel {
   String? name;
 
@@ -7,6 +9,7 @@ class ClinicModel {
   String? location;
   String? website;
   String? img;
+  Doctormodel? doctor;
   ClinicModel(
       {required this.name,
       required this.phoneNumber,
@@ -14,5 +17,7 @@ class ClinicModel {
       required this.workTime,
       required this.location,
       required this.website,
-      required this.img});
+      required this.img,
+      required this.doctor
+      });
 }

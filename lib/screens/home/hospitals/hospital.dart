@@ -24,9 +24,9 @@ class _AboutHospitalState extends State<AboutHospital> {
                       Text("Back",style: TextStyle(fontSize: FontConst.mediumFont+2,fontWeight: FontWeight.w500,),)
                     ],
                   ),
-
+                  
                 ],
-              )
+              ),
             ],
           )
         ],
